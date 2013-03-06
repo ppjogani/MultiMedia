@@ -1,7 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Mar  1 12:37:14 2013
+
+@author: parin
+"""
 import numpy as np
 
 mat=[[[0 for x in xrange(3)] for x in xrange(288)] for x in xrange(352)]
-dct=np.array([[[0 for x in xrange(3)] for x in xrange(8)] for x in xrange(8)])
+dct=np.array([[[0 for x in xrange(3)] for x in xrange(288)] for x in xrange(352)])
 
 
 count=0
@@ -41,11 +47,15 @@ for i in range(352/8):
         block_G=mat_A[i*8:i*8+8,j*8:j*8+8,1].tolist()
         block_B=mat_A[i*8:i*8+8,j*8:j*8+8,2].tolist()
 
-        r=((np.matrix(block_R)*np.matrix(cos)).transpose())*np.matrix(cos)
-        g=((np.matrix(block_G)*np.matrix(cos)).transpose())*np.matrix(cos)
-        b=((np.matrix(block_B)*np.matrix(cos)).transpose())*np.matrix(cos)
-
+        r=(((np.matrix(block_R)*np.matrix(cos)).transpose())*np.matrix(cos))/4
+        g=(((np.matrix(block_G)*np.matrix(cos)).transpose())*np.matrix(cos))/4
+        b=(((np.matrix(block_B)*np.matrix(cos)).transpose())*np.matrix(cos))/4
+        
+        r[0,0]=r[0,0]/2
+        g[0,0]=r[0,0]/2
+        b[0,0]=r[0,0]/2
+        
         dct[i*8:i*8+8,j*8:j*8+8,0]=r.round(2)
         dct[i*8:i*8+8,j*8:j*8+8,1]=g.round(2)
         dct[i*8:i*8+8,j*8:j*8+8,2]=b.round(2)
-        print dct[0:8,0:8,0]/32
+#        print dct[i*8:i*8+8,j*8:j*8+8,0]/32
